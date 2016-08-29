@@ -8,25 +8,20 @@
   <script src="js/criminalsController.js"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
-
-<!-- ADD ng-app to the body tag -->
-<body>
+<body ng-app='SmoothCriminals'>
 
   <h1>Infamous Criminals</h1>
+  <section ng-controller='CriminalsController as criminals'>
 
-<!-- ADD ng-controller to the section tag -->
-  <section>
-
-    <!-- FILL IN THE BLANKS! This should show the criminals name, location and status. The span with the status in it should have a class of the status (watch for case sensitivity)-->
     <ul id="criminals">
-      <li ng-repeat="" data-id="">
-        <strong>{{}}</strong> <em>{{}}</em> <span class='status {{}}'>{{}}</span>
-        <button class='delete' ng-click="">X</button>
+      <li ng-repeat="criminal in criminals.all" data-id="{{criminal._id}}">
+        <strong>{{criminal.name}}</strong> <em>{{criminal.location}}</em> <span class='status {{criminal.status | lowercase }}'>{{criminal.status | uppercase}}</span>
+        <button class='delete' ng-click="criminals.deleteCriminal(criminal)">X</button>
       </li>
     </ul>
 
-<!-- ADD ng-submit to the form -->
-    <form>
+
+    <form ng-submit="criminals.addCriminal()" id="newCriminal">
       <div>
         <label for="newCriminal-name">Name:</label>
         <input type="text" id="newCriminal-name" ng-model="criminals.newCriminal.name" placeholder="Prof. Moriarty">
@@ -37,9 +32,7 @@
       </div>
       <div>
         <label for="newCriminal-status">Status:</label>
-
-<!-- ADD ng-model to the select tag -->
-        <select id="newCriminal-status">
+        <select id="newCriminal-status" ng-model='criminals.newCriminal.status'>
           <option value="" disabled>- - Please Select One - -</option>
           <option value="Alive">Alive</option>
           <option value="Dead">Dead</option>
